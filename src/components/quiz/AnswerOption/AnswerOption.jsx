@@ -16,7 +16,6 @@ const AnswerOption = ({ index, answerValue, isSelected, onClick, sx = {} }) => {
     <Card
       onClick={onClick}
       sx={{
-        cursor: 'pointer',
         p: { xs: 1.5, sm: 2 },
         display: 'flex',
         alignItems: 'center',

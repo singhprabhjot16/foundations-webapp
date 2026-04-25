@@ -35,7 +35,6 @@ const QuizHistoryItem = ({ quiz, sx = {} }) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           p: { xs: 2, sm: 2.5 },
-          cursor: 'pointer',
           '&:hover': { bgcolor: theme.palette.grey[50] },
         }}
       >
