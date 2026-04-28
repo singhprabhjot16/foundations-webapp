@@ -35,9 +35,40 @@ const PastQuizzes = () => {
 
       {/* Scrollable Content */}
       <Container maxWidth="sm" sx={{ px: { xs: 2, sm: 3 }, py: { xs: 2, sm: 3 }, flex: 1 }}>
-        <ToggleButtonGroup value={filterMonths} exclusive onChange={(e, v) => { if (v !== null) setFilterMonths(v); }}
-          sx={{ mb: 3, display: 'flex', '& .MuiToggleButtonGroup-grouped': { flex: 1, borderRadius: '20px !important', border: `1.5px solid ${theme.palette.grey[200]} !important`, fontSize: '0.8rem', fontWeight: 600, textTransform: 'none', '&.Mui-selected': { bgcolor: `${theme.palette.primary.main} !important`, color: '#fff !important', borderColor: `${theme.palette.primary.main} !important` } } }}>
-          {FILTER_OPTIONS.map((opt) => (<ToggleButton key={opt.value} value={opt.value}>{opt.label}</ToggleButton>))}
+        <ToggleButtonGroup
+          value={filterMonths}
+          exclusive
+          onChange={(e, v) => { if (v !== null) setFilterMonths(v); }}
+          sx={{
+            mb: 3,
+            display: 'flex',
+            bgcolor: theme.palette.grey[100],
+            borderRadius: '14px',
+            p: '4px',
+            '& .MuiToggleButtonGroup-grouped': {
+              flex: 1,
+              border: 'none !important',
+              borderRadius: '11px !important',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              textTransform: 'none',
+              color: theme.palette.text.secondary,
+              py: 1.2,
+              transition: 'all 0.2s ease',
+              '&.Mui-selected': {
+                bgcolor: '#FFFFFF !important',
+                color: `${theme.palette.text.primary} !important`,
+                boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
+              },
+              '&:hover': {
+                bgcolor: 'transparent',
+              },
+            },
+          }}
+        >
+          {FILTER_OPTIONS.map((opt) => (
+            <ToggleButton key={opt.value} value={opt.value}>{opt.label}</ToggleButton>
+          ))}
         </ToggleButtonGroup>
 
         <CategoryChart quizzes={filteredQuizzes} sx={{ mb: 3, p: 2, bgcolor: theme.palette.background.paper, borderRadius: 3, border: `1px solid ${theme.palette.divider}` }} />
