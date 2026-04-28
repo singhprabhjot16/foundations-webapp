@@ -50,6 +50,7 @@ const Home = () => {
       {/* Sticky Header */}
       <PageHeader
         title="Foundations"
+        showThemeToggle
         trailing={<StreakBadge streakCount={streakCount} />}
       />
 

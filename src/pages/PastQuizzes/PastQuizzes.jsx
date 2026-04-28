@@ -56,9 +56,11 @@ const PastQuizzes = () => {
               py: 1.2,
               transition: 'all 0.2s ease',
               '&.Mui-selected': {
-                bgcolor: '#FFFFFF !important',
+                bgcolor: `${theme.palette.background.paper} !important`,
                 color: `${theme.palette.text.primary} !important`,
-                boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
+                boxShadow: theme.palette.mode === 'dark'
+                  ? '0 1px 4px rgba(0,0,0,0.4)'
+                  : '0 1px 4px rgba(0,0,0,0.1)',
               },
               '&:hover': {
                 bgcolor: 'transparent',

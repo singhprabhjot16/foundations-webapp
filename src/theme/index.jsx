@@ -1,49 +1,67 @@
-import { createTheme, CssBaseline, GlobalStyles, ThemeProvider as MUIThemeProvider, StyledEngineProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider as MUIThemeProvider, StyledEngineProvider } from "@mui/material";
+import { useMemo } from "react";
 import palette from "./palette";
 import gradient from "./gradient";
 import typography from "./typography";
 import PropTypes from "prop-types";
 import ComponentOverrides from "./overrides";
+import { ThemeModeProvider, useThemeMode } from "./ThemeModeContext";
 
 /**
- * ThemeProvider - Wraps the app with MUI theming
+ * InnerThemeProvider - Builds the MUI theme using current mode from context.
+ */
+function InnerThemeProvider({ children }) {
+  const { mode } = useThemeMode();
+
+  const theme = useMemo(() => {
+    const t = createTheme({
+      palette: palette(mode),
+      gradient: gradient(),
+      typography,
+      shape: {
+        borderRadius: 12,
+      },
+      breakpoints: {
+        values: {
+          xs: 0,
+          sm: 600,
+          md: 960,
+          lg: 1200,
+          xl: 1536,
+        },
+      },
+    });
+    t.components = ComponentOverrides(t);
+    return t;
+  }, [mode]);
+
+  return (
+    <MUIThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </MUIThemeProvider>
+  );
+}
+
+InnerThemeProvider.propTypes = {
+  children: PropTypes.node,
+};
+
+/**
+ * ThemeProvider - Wraps the app with theme mode context + MUI theming.
  * @component
  * @param {Object} props
  * @param {React.ReactNode} props.children - Child components
  * @returns {JSX.Element}
  */
 export default function ThemeProvider({ children }) {
-  const theme = createTheme({
-    palette: palette(),
-    gradient: gradient(),
-    typography,
-    shape: {
-      borderRadius: 12,
-    },
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 960,
-        lg: 1200,
-        xl: 1536,
-      },
-    },
-  });
-
-  theme.components = ComponentOverrides(theme);
-
   return (
     <StyledEngineProvider injectFirst>
-      <MUIThemeProvider theme={theme}>
-        <CssBaseline />
-        <GlobalStyles
-          styles={{
-            '@import': "url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap')",
-          }}
-        />
-        {children}
-      </MUIThemeProvider>
+      <ThemeModeProvider>
+        <InnerThemeProvider>
+          {children}
+        </InnerThemeProvider>
+      </ThemeModeProvider>
     </StyledEngineProvider>
   );
 }

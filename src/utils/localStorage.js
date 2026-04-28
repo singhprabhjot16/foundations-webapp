@@ -3,9 +3,10 @@
  * Follows the StorageService pattern from coding guardrails.
  */
 
-const KEYS = {
+export const KEYS = {
   QUIZ_HISTORY: 'foundations_quiz_history',
   STREAK: 'foundations_streak',
+  THEME_MODE: 'foundations_theme_mode',
 };
 
 const CLEANUP_DAYS = 180; // 6 months
@@ -15,7 +16,7 @@ const CLEANUP_DAYS = 180; // 6 months
  * @param {string} key
  * @returns {*} Parsed value or null
  */
-const getItem = (key) => {
+export const getItem = (key) => {
   try {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : null;
@@ -30,7 +31,7 @@ const getItem = (key) => {
  * @param {string} key
  * @param {*} value
  */
-const setItem = (key, value) => {
+export const setItem = (key, value) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {

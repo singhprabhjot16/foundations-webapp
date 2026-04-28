@@ -44,6 +44,13 @@ const QuizConfig = () => {
         {/* Config sections */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
           <ChipSelector
+            label="No. of Questions"
+            options={NUM_QUESTIONS_OPTIONS}
+            value={config.numberOfQuestions}
+            onChange={(val) => dispatch(setNumberOfQuestions(val))}
+          />
+
+          <ChipSelector
             label="Total Time"
             options={TOTAL_TIME_OPTIONS}
             value={config.totalTimeSeconds}
@@ -61,14 +68,7 @@ const QuizConfig = () => {
             }}
           />
 
-          <ChipSelector
-            label="No. of Questions"
-            options={NUM_QUESTIONS_OPTIONS}
-            value={config.numberOfQuestions}
-            onChange={(val) => dispatch(setNumberOfQuestions(val))}
-          />
-
-          {/* Quick Fire Mode */}
+          {/* Quick Fire Mode — placed right after TPQ */}
           <Box
             sx={{
               bgcolor: theme.palette.background.paper,
@@ -92,6 +92,14 @@ const QuizConfig = () => {
               checked={isQuickFire}
               onChange={() => dispatch(toggleQuickFire())}
               aria-label="toggle quick fire mode"
+              sx={{
+                '& .MuiSwitch-thumb': {
+                  backgroundColor: '#FFFFFF',
+                },
+                '& .MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb': {
+                  backgroundColor: '#FFFFFF',
+                },
+              }}
             />
           </Box>
         </Box>
