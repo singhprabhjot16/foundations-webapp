@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography, Button, Container } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import GridOnIcon from '@mui/icons-material/GridOn';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { ROUTES } from '../../routes/Path';
 import { CATEGORIES, CATEGORY_ORDER } from '../../constants/categories';
@@ -12,6 +11,7 @@ import { loadStreak } from '../../store/streakSlice';
 import { loadHistory } from '../../store/historySlice';
 import CategoryCard from '../../components/home/CategoryCard';
 import StreakBadge from '../../components/home/StreakBadge';
+import PageHeader from '../../components/common/PageHeader';
 
 /**
  * Home - Central hub with category grid and streak badge
@@ -43,50 +43,25 @@ const Home = () => {
       sx={{
         minHeight: '100vh',
         bgcolor: theme.palette.background.default,
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
+      {/* Sticky Header */}
+      <PageHeader
+        title="Foundations"
+        trailing={<StreakBadge streakCount={streakCount} />}
+      />
+
+      {/* Scrollable Content */}
       <Container
         maxWidth="md"
         sx={{
           px: { xs: 2, sm: 3 },
           py: { xs: 2, sm: 3 },
+          flex: 1,
         }}
       >
-        {/* Header */}
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            mb: 3,
-            pb: 2,
-            borderBottom: `1px solid ${theme.palette.divider}`,
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Box
-              sx={{
-                width: 40,
-                height: 40,
-                borderRadius: 2.5,
-                bgcolor: theme.palette.primary.main + '12',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <GridOnIcon sx={{ fontSize: 22, color: theme.palette.primary.main }} />
-            </Box>
-            <Typography
-              variant="h5"
-              sx={{ fontWeight: 800, color: theme.palette.text.primary }}
-            >
-              Foundations
-            </Typography>
-          </Box>
-          <StreakBadge streakCount={streakCount} />
-        </Box>
-
         {/* Section label */}
         <Typography
           variant="overline"

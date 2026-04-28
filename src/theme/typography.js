@@ -3,7 +3,7 @@
  * Inter font family with responsive type scale.
  */
 const typography = {
-  fontFamily: '"Elms Sans", "Roboto", "Helvetica", "Arial", sans-serif',
+  fontFamily: '"Parkinsans", "Elms Sans", "Roboto", "Helvetica", "Arial", sans-serif',
   h1: {
     fontSize: '2.5rem',
     fontWeight: 700,

@@ -1,27 +1,12 @@
 import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography, Container, Switch, Button, IconButton } from '@mui/material';
+import { Box, Typography, Container, Switch, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ROUTES } from '../../routes/Path';
 import { CATEGORIES, QUIZ_MODES, TOTAL_TIME_OPTIONS, TPQ_OPTIONS, NUM_QUESTIONS_OPTIONS } from '../../constants/categories';
 import { setTotalTime, setTpq, setNumberOfQuestions, toggleQuickFire } from '../../store/quizConfigSlice';
 import ChipSelector from '../../components/common/ChipSelector';
-import GridOnIcon from '@mui/icons-material/GridOn';
-import CropSquareIcon from '@mui/icons-material/CropSquare';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import PieChartOutlinedIcon from '@mui/icons-material/PieChartOutlined';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-
-const ICON_MAP = {
-  GridOn: GridOnIcon,
-  CropSquare: CropSquareIcon,
-  ViewInAr: ViewInArIcon,
-  PieChartOutline: PieChartOutlinedIcon,
-  MenuBook: MenuBookIcon,
-  AutoAwesome: AutoAwesomeIcon,
-};
+import PageHeader from '../../components/common/PageHeader';
 
 /**
  * QuizConfig - Configuration screen for quiz parameters
@@ -40,39 +25,22 @@ const QuizConfig = () => {
     return null;
   }
 
-  const CategoryIcon = ICON_MAP[category.icon] || GridOnIcon;
   const isQuickFire = config.quizMode === QUIZ_MODES.QUICK_FIRE;
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: theme.palette.background.default }}>
-      <Container maxWidth="sm" sx={{ px: { xs: 2, sm: 3 }, py: { xs: 2, sm: 3 } }}>
-        {/* Header */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-          <IconButton
-            onClick={() => navigate(ROUTES.HOME)}
-            aria-label="back to home"
-            sx={{ color: theme.palette.text.primary }}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-          <Box
-            sx={{
-              width: 36,
-              height: 36,
-              borderRadius: 2,
-              bgcolor: category.accentLight,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <CategoryIcon sx={{ fontSize: 20, color: category.accent }} />
-          </Box>
-          <Typography variant="h6" sx={{ fontWeight: 700 }}>
-            {category.name}
-          </Typography>
-        </Box>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        bgcolor: theme.palette.background.default,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {/* Sticky Header */}
+      <PageHeader title={category.name} backTo={ROUTES.HOME} />
 
+      {/* Scrollable Content */}
+      <Container maxWidth="sm" sx={{ px: { xs: 2, sm: 3 }, py: { xs: 2, sm: 3 }, flex: 1 }}>
         {/* Config sections */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mb: 3 }}>
           <ChipSelector

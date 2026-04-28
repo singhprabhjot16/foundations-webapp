@@ -10,6 +10,7 @@ import GridOnIcon from '@mui/icons-material/GridOn';
 
 /**
  * Splash - App entry screen with logo, name, tagline, and auto-redirect.
+ * Uses position: fixed + height: 100% to avoid layout issues in WebView.
  * @component
  * @returns {JSX.Element}
  */
@@ -41,15 +42,21 @@ const Splash = () => {
   return (
     <Box
       sx={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '100vh',
         background: `linear-gradient(180deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
         opacity: visible ? 1 : 0,
         transition: 'opacity 0.8s ease-in-out',
         px: 3,
+        zIndex: 9999,
+        overflow: 'hidden',
       }}
     >
       {/* Logo */}

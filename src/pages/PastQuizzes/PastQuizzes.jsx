@@ -1,14 +1,14 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography, Container, IconButton, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Typography, Container, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { ROUTES } from '../../routes/Path';
 import { loadHistory } from '../../store/historySlice';
 import { isWithinMonths } from '../../utils/dateUtils';
 import CategoryChart from '../../components/history/CategoryChart';
 import QuizHistoryItem from '../../components/history/QuizHistoryItem';
+import PageHeader from '../../components/common/PageHeader';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 const FILTER_OPTIONS = [
   { label: '1 Month', value: 1 },
@@ -18,7 +18,6 @@ const FILTER_OPTIONS = [
 
 const PastQuizzes = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { quizzes, isLoaded } = useSelector((s) => s.history);
   const [filterMonths, setFilterMonths] = useState(1);
@@ -30,13 +29,12 @@ const PastQuizzes = () => {
   }, [quizzes, filterMonths]);
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: theme.palette.background.default }}>
-      <Container maxWidth="sm" sx={{ px: { xs: 2, sm: 3 }, py: { xs: 2, sm: 3 } }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-          <IconButton onClick={() => navigate(ROUTES.HOME)} aria-label="back"><ArrowBackIcon /></IconButton>
-          <Typography variant="h5" sx={{ fontWeight: 800 }}>My Past Quizzes</Typography>
-        </Box>
+    <Box sx={{ minHeight: '100vh', bgcolor: theme.palette.background.default, display: 'flex', flexDirection: 'column' }}>
+      {/* Sticky Header */}
+      <PageHeader title="My Past Quizzes" backTo={ROUTES.HOME} />
 
+      {/* Scrollable Content */}
+      <Container maxWidth="sm" sx={{ px: { xs: 2, sm: 3 }, py: { xs: 2, sm: 3 }, flex: 1 }}>
         <ToggleButtonGroup value={filterMonths} exclusive onChange={(e, v) => { if (v !== null) setFilterMonths(v); }}
           sx={{ mb: 3, display: 'flex', '& .MuiToggleButtonGroup-grouped': { flex: 1, borderRadius: '20px !important', border: `1.5px solid ${theme.palette.grey[200]} !important`, fontSize: '0.8rem', fontWeight: 600, textTransform: 'none', '&.Mui-selected': { bgcolor: `${theme.palette.primary.main} !important`, color: '#fff !important', borderColor: `${theme.palette.primary.main} !important` } } }}>
           {FILTER_OPTIONS.map((opt) => (<ToggleButton key={opt.value} value={opt.value}>{opt.label}</ToggleButton>))}
@@ -44,9 +42,12 @@ const PastQuizzes = () => {
 
         <CategoryChart quizzes={filteredQuizzes} sx={{ mb: 3, p: 2, bgcolor: theme.palette.background.paper, borderRadius: 3, border: `1px solid ${theme.palette.divider}` }} />
 
-        <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 2 }}>Quiz History</Typography>
+        <Typography variant="overline" sx={{ fontWeight: 700, mb: 2, ml: 1.5, display: 'block', letterSpacing: '0.08em', color: theme.palette.text.secondary }}>History</Typography>
         {filteredQuizzes.length === 0 ? (
-          <Typography variant="body2" sx={{ color: theme.palette.text.secondary, textAlign: 'center', py: 4 }}>No quizzes found for this period.</Typography>
+          <Box sx={{ textAlign: 'center', py: 6, bgcolor: theme.palette.background.paper, borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
+            <BarChartIcon sx={{ fontSize: 48, color: theme.palette.grey[300], mb: 1 }} />
+            <Typography variant="body2" sx={{ color: theme.palette.text.secondary }}>No quizzes taken in this period.</Typography>
+          </Box>
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
             {filteredQuizzes.map((quiz) => (<QuizHistoryItem key={quiz.quizId} quiz={quiz} />))}
